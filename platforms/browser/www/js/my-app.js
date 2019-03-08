@@ -44,6 +44,11 @@ $$(document).on('pageInit', '.page[data-page="about"]', function (e) {
 
 
 function scan(){
+
+    SpinnerPlugin.activityStart("Iniciando Sesión...");
+
+
+    
     cordova.plugins.barcodeScanner.scan(
       function (result) {
           myApp.alert("We got a barcode\n" +
