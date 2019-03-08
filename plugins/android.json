@@ -1,0 +1,30 @@
+{
+  "prepare_queue": {
+    "installed": [],
+    "uninstalled": []
+  },
+  "config_munge": {
+    "files": {}
+  },
+  "installed_plugins": {
+    "cordova-plugin-console": {
+      "PACKAGE_NAME": "com.wedding.app"
+    },
+    "cordova-plugin-dialogs": {
+      "PACKAGE_NAME": "com.wedding.app"
+    },
+    "cordova-plugin-spinner": {
+      "PACKAGE_NAME": "com.wedding.app"
+    },
+    "cordova-plugin-statusbar": {
+      "PACKAGE_NAME": "com.wedding.app"
+    },
+    "cordova-plugin-whitelist": {
+      "PACKAGE_NAME": "com.wedding.app"
+    },
+    "phonegap-plugin-barcodescanner": {
+      "PACKAGE_NAME": "com.wedding.app"
+    }
+  },
+  "dependent_plugins": {}
+}
