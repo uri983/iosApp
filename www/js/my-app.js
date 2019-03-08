@@ -49,6 +49,7 @@ function scan(){
     //SpinnerPlugin.activityStart("Iniciando Sesión...");
 
     mwbScanner.startScanning(function(result){
+        console.log(result);
        alert('este es el resulto' + result);
     });
 
