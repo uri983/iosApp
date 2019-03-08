@@ -13,7 +13,7 @@ var mainView = myApp.addView('.view-main', {
 
 // Handle Cordova Device Ready Event
 $$(document).on('deviceready', function() {
-    console.log("Device is ready!");
+    alert('device ready');
 });
 
 
@@ -45,11 +45,11 @@ $$(document).on('pageInit', '.page[data-page="about"]', function (e) {
 
 function scan(){
 
-    //SpinnerPlugin.activityStart("Iniciando Sesión...");
+    SpinnerPlugin.activityStart("Iniciando Sesión...");
 
-    scanner.startScanning();
 
-    /*cordova.plugins.barcodeScanner.scan(
+
+    cordova.plugins.barcodeScanner.scan(
       function (result) {
           myApp.alert("We got a barcode\n" +
                 "Result: " + result.text + "\n" +
@@ -72,6 +72,6 @@ function scan(){
           disableAnimations : true, // iOS
           disableSuccessBeep: false // iOS and Android
       }
-   );*/
+   );
     
 }
