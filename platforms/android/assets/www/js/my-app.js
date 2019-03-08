@@ -50,7 +50,7 @@ function scan(){
 
     mwbScanner.startScanning(function(result){
        alert('este es el resulto' + result);
-    }, 200, 200, 300, 500);
+    });
 
     
     
