@@ -18,6 +18,9 @@
         },
         "phonegap-plugin-barcodescanner": {
             "PACKAGE_NAME": "com.wedding.app"
+        },
+        "cordova-plugin-dialogs": {
+            "PACKAGE_NAME": "com.wedding.app"
         }
     },
     "dependent_plugins": {}
