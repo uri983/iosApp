@@ -35,6 +35,10 @@
                         {
                             "xml": "<feature name=\"MWBarcodeScanner\"><param name=\"android-package\" value=\"com.manateeworks.BarcodeScannerPlugin\" /></feature>",
                             "count": 1
+                        },
+                        {
+                            "xml": "<feature name=\"cordova-gmv-barcode-scanner\"><param name=\"android-package\" value=\"com.dealrinc.gmvScanner.CDVAndroidScanner\" /></feature>",
+                            "count": 1
                         }
                     ]
                 }
@@ -68,6 +72,112 @@
                             "xml": "<uses-feature android:name=\"android.hardware.camera\" android:required=\"true\" />",
                             "count": 1
                         }
+                    ],
+                    "/*": [
+                        {
+                            "xml": "<uses-permission android:name=\"android.permission.CAMERA\" />",
+                            "count": 1
+                        }
+                    ],
+                    "application": [
+                        {
+                            "xml": "<meta-data android:name=\"com.google.android.gms.version\" android:value=\"@integer/google_play_services_version\" />",
+                            "count": 1
+                        },
+                        {
+                            "xml": "<meta-data android:name=\"com.google.android.gms.vision.DEPENDENCIES\" android:value=\"barcode\" />",
+                            "count": 1
+                        },
+                        {
+                            "xml": "<activity android:label=\"@string/title_activity_main\" android:name=\"com.dealrinc.gmvScanner.SecondaryActivity\"><intent-filter><action android:name=\"android.intent.action.MAIN\" /><category android:name=\"android.intent.category.LAUNCHER\" /></intent-filter></activity>",
+                            "count": 1
+                        },
+                        {
+                            "xml": "<activity android:label=\"Read Barcode\" android:name=\"com.dealrinc.gmvScanner.BarcodeCaptureActivity\" android:theme=\"@style/Theme.AppCompat.Light\" />",
+                            "count": 1
+                        }
+                    ]
+                }
+            },
+            "app/src/main/AndroidManifest.xml": {
+                "parents": {
+                    "/*": [
+                        {
+                            "xml": "<uses-permission android:name=\"android.permission.CAMERA\" />",
+                            "count": 1
+                        }
+                    ],
+                    "application": [
+                        {
+                            "xml": "<meta-data android:name=\"com.google.android.gms.version\" android:value=\"@integer/google_play_services_version\" />",
+                            "count": 1
+                        },
+                        {
+                            "xml": "<meta-data android:name=\"com.google.android.gms.vision.DEPENDENCIES\" android:value=\"barcode\" />",
+                            "count": 1
+                        },
+                        {
+                            "xml": "<activity android:label=\"@string/title_activity_main\" android:name=\"com.dealrinc.gmvScanner.SecondaryActivity\"><intent-filter><action android:name=\"android.intent.action.MAIN\" /><category android:name=\"android.intent.category.LAUNCHER\" /></intent-filter></activity>",
+                            "count": 1
+                        },
+                        {
+                            "xml": "<activity android:label=\"Read Barcode\" android:name=\"com.dealrinc.gmvScanner.BarcodeCaptureActivity\" android:theme=\"@style/Theme.AppCompat.Light\" />",
+                            "count": 1
+                        }
+                    ]
+                }
+            },
+            "res/values/strings.xml": {
+                "parents": {
+                    "/*": [
+                        {
+                            "xml": "<string name=\"ok\">OK</string>",
+                            "count": 1
+                        },
+                        {
+                            "xml": "<string name=\"permission_camera_rationale\">Access to the camera is needed for detection</string>",
+                            "count": 1
+                        },
+                        {
+                            "xml": "<string name=\"no_camera_permission\">This application cannot run because it does not have the camera permission.  The application will now exit.</string>",
+                            "count": 1
+                        },
+                        {
+                            "xml": "<string name=\"low_storage_error\">Face detector dependencies cannot be downloaded due to low device storage</string>",
+                            "count": 1
+                        },
+                        {
+                            "xml": "<string name=\"title_activity_main\">Barcode Reader Sample</string>",
+                            "count": 1
+                        },
+                        {
+                            "xml": "<string name=\"barcode_header\">Click \"Read Barcode\" to read a barcode</string>",
+                            "count": 1
+                        },
+                        {
+                            "xml": "<string name=\"read_barcode\">Read Barcode</string>",
+                            "count": 1
+                        },
+                        {
+                            "xml": "<string name=\"auto_focus\">Auto Focus</string>",
+                            "count": 1
+                        },
+                        {
+                            "xml": "<string name=\"use_flash\">Use Flash</string>",
+                            "count": 1
+                        },
+                        {
+                            "xml": "<string name=\"barcode_success\">Barcode read successfully</string>",
+                            "count": 1
+                        },
+                        {
+                            "xml": "<string name=\"barcode_failure\">No barcode captured</string>",
+                            "count": 1
+                        },
+                        {
+                            "xml": "<string name=\"barcode_error\">\"Error reading barcode: %1$s\"</string>",
+                            "count": 1
+                        }
                     ]
                 }
             }
@@ -96,6 +206,9 @@
             "PACKAGE_NAME": "com.wedding.app"
         },
         "com.manateeworks.barcodescanner": {
+            "PACKAGE_NAME": "com.wedding.app"
+        },
+        "cordova-gmv-barcode-scanner": {
             "PACKAGE_NAME": "com.wedding.app"
         }
     },
@@ -156,6 +269,14 @@
             "clobbers": [
                 "scanner"
             ]
+        },
+        {
+            "id": "cordova-gmv-barcode-scanner.cordova-gmv-barcode-scanner",
+            "file": "plugins/cordova-gmv-barcode-scanner/www/main.js",
+            "pluginId": "cordova-gmv-barcode-scanner",
+            "clobbers": [
+                "cordova.plugins.gmv-barcode-scanner"
+            ]
         }
     ],
     "plugin_metadata": {
@@ -166,6 +287,7 @@
         "cordova-plugin-whitelist": "1.2.2",
         "phonegap-plugin-barcodescanner": "6.0.8",
         "cordova-plugin-device": "2.0.2",
-        "com.manateeworks.barcodescanner": "1.8.1"
+        "com.manateeworks.barcodescanner": "1.8.1",
+        "cordova-gmv-barcode-scanner": "1.2"
     }
 }

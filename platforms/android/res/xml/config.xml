@@ -23,6 +23,9 @@
     <feature name="MWBarcodeScanner">
         <param name="android-package" value="com.manateeworks.BarcodeScannerPlugin" />
     </feature>
+    <feature name="cordova-gmv-barcode-scanner">
+        <param name="android-package" value="com.dealrinc.gmvScanner.CDVAndroidScanner" />
+    </feature>
     <name>iosApp</name>
     <description>
         A basic Framework7 template for PhoneGap.

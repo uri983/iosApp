@@ -55,6 +55,14 @@ module.exports = [
     "clobbers": [
       "scanner"
     ]
+  },
+  {
+    "id": "cordova-gmv-barcode-scanner.cordova-gmv-barcode-scanner",
+    "file": "plugins/cordova-gmv-barcode-scanner/www/main.js",
+    "pluginId": "cordova-gmv-barcode-scanner",
+    "clobbers": [
+      "cordova.plugins.gmv-barcode-scanner"
+    ]
   }
 ];
 module.exports.metadata = 
@@ -67,7 +75,8 @@ module.exports.metadata =
   "cordova-plugin-whitelist": "1.2.2",
   "phonegap-plugin-barcodescanner": "6.0.8",
   "cordova-plugin-device": "2.0.2",
-  "com.manateeworks.barcodescanner": "1.8.1"
+  "com.manateeworks.barcodescanner": "1.8.1",
+  "cordova-gmv-barcode-scanner": "1.2"
 };
 // BOTTOM OF METADATA
 });

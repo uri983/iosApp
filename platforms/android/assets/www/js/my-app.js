@@ -48,9 +48,17 @@ function scan(){
 
     //SpinnerPlugin.activityStart("Iniciando Sesión...");
 
+    window.plugins.GMVBarcodeScanner.scan({}, function(err, result) { 
+    
+    //Handle Errors
+    if(err) return;
+    
+    //Do something with the data.
+    alert(result);
+    
+    });
 
-
-    cordova.plugins.barcodeScanner.scan(
+    /*cordova.plugins.barcodeScanner.scan(
       function (result) {
           myApp.alert("We got a barcode\n" +
                 "Result: " + result.text + "\n" +
@@ -73,6 +81,6 @@ function scan(){
           disableAnimations : true, // iOS
           disableSuccessBeep: false // iOS and Android
       }
-   );
+   );*/
     
 }
