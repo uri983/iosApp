@@ -109,8 +109,6 @@
 @property (nonatomic, retain) NSString*        alternateXib;
 @property (nonatomic)         BOOL             shutterPressed;
 @property (nonatomic, retain) IBOutlet UIView* overlayView;
-@property (nonatomic, retain) UIToolbar * toolbar;
-@property (nonatomic, retain) UIView * reticleView;
 // unsafe_unretained is equivalent to assign - used to prevent retain cycles in the property below
 @property (nonatomic, unsafe_unretained) id orientationDelegate;
 
@@ -120,8 +118,6 @@
 - (UIImage*)buildReticleImage;
 - (void)shutterButtonPressed;
 - (IBAction)cancelButtonPressed:(id)sender;
-- (IBAction)flipCameraButtonPressed:(id)sender;
-- (IBAction)torchButtonPressed:(id)sender;
 
 @end
 
@@ -903,6 +899,19 @@ parentViewController:(UIViewController*)parentViewController
 //--------------------------------------------------------------------------
 - (void)loadView {
     self.view = [[UIView alloc] initWithFrame: self.processor.parentViewController.view.frame];
+
+    // setup capture preview layer
+    AVCaptureVideoPreviewLayer* previewLayer = self.processor.previewLayer;
+    previewLayer.frame = self.view.bounds;
+    previewLayer.videoGravity = AVLayerVideoGravityResizeAspectFill;
+
+    if ([previewLayer.connection isVideoOrientationSupported]) {
+        [previewLayer.connection setVideoOrientation:AVCaptureVideoOrientationPortrait];
+    }
+
+    [self.view.layer insertSublayer:previewLayer below:[[self.view.layer sublayers] objectAtIndex:0]];
+
+    [self.view addSubview:[self buildOverlayView]];
 }
 
 //--------------------------------------------------------------------------
@@ -918,18 +927,6 @@ parentViewController:(UIViewController*)parentViewController
 
 //--------------------------------------------------------------------------
 - (void)viewDidAppear:(BOOL)animated {
-    // setup capture preview layer
-    AVCaptureVideoPreviewLayer* previewLayer = self.processor.previewLayer;
-    previewLayer.frame = self.view.bounds;
-    previewLayer.videoGravity = AVLayerVideoGravityResizeAspectFill;
-
-    if ([previewLayer.connection isVideoOrientationSupported]) {
-        [previewLayer.connection setVideoOrientation:[[UIApplication sharedApplication] statusBarOrientation]];
-    }
-
-    [self.view.layer insertSublayer:previewLayer below:[[self.view.layer sublayers] objectAtIndex:0]];
-
-    [self.view addSubview:[self buildOverlayView]];
     [self startCapturing];
 
     [super viewDidAppear:animated];
@@ -941,7 +938,7 @@ parentViewController:(UIViewController*)parentViewController
 }
 
 //--------------------------------------------------------------------------
-- (IBAction)shutterButtonPressed {
+- (void)shutterButtonPressed {
     self.shutterPressed = YES;
 }
 
@@ -950,12 +947,12 @@ parentViewController:(UIViewController*)parentViewController
     [self.processor performSelector:@selector(barcodeScanCancelled) withObject:nil afterDelay:0];
 }
 
-- (IBAction)flipCameraButtonPressed:(id)sender
+- (void)flipCameraButtonPressed:(id)sender
 {
     [self.processor performSelector:@selector(flipCamera) withObject:nil afterDelay:0];
 }
 
-- (IBAction)torchButtonPressed:(id)sender
+- (void)torchButtonPressed:(id)sender
 {
   [self.processor performSelector:@selector(toggleTorch) withObject:nil afterDelay:0];
 }
@@ -970,16 +967,7 @@ parentViewController:(UIViewController*)parentViewController
         NSLog(@"%@", @"An error occurred loading the overlay xib.  It appears that the overlayView outlet is not set.");
         return nil;
     }
-	
-	self.overlayView.autoresizesSubviews = YES;
-    self.overlayView.autoresizingMask    = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
-    self.overlayView.opaque              = NO;
-	
-	CGRect bounds = self.view.bounds;
-    bounds = CGRectMake(0, 0, bounds.size.width, bounds.size.height);
-	
-	[self.overlayView setFrame:bounds];
-	
+
     return self.overlayView;
 }
 
@@ -990,7 +978,7 @@ parentViewController:(UIViewController*)parentViewController
     {
         return [self buildOverlayViewFromXib];
     }
-    CGRect bounds = self.view.frame;
+    CGRect bounds = self.view.bounds;
     bounds = CGRectMake(0, 0, bounds.size.width, bounds.size.height);
 
     UIView* overlayView = [[UIView alloc] initWithFrame:bounds];
@@ -998,8 +986,8 @@ parentViewController:(UIViewController*)parentViewController
     overlayView.autoresizingMask    = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
     overlayView.opaque              = NO;
 
-    self.toolbar = [[UIToolbar alloc] init];
-    self.toolbar.autoresizingMask = UIViewAutoresizingFlexibleWidth;
+    UIToolbar* toolbar = [[UIToolbar alloc] init];
+    toolbar.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleTopMargin;
 
     id cancelButton = [[[UIBarButtonItem alloc]
                        initWithBarButtonSystemItem:UIBarButtonSystemItemCancel
@@ -1060,23 +1048,44 @@ parentViewController:(UIViewController*)parentViewController
       [items insertObject:torchButton atIndex:0];
     }
   }
-    self.toolbar.items = items;
-    [overlayView addSubview: self.toolbar];
+
+    toolbar.items = items;
+
+    bounds = overlayView.bounds;
+
+    [toolbar sizeToFit];
+    CGFloat toolbarHeight  = [toolbar frame].size.height;
+    CGFloat rootViewHeight = CGRectGetHeight(bounds);
+    CGFloat rootViewWidth  = CGRectGetWidth(bounds);
+    CGRect  rectArea       = CGRectMake(0, rootViewHeight - toolbarHeight, rootViewWidth, toolbarHeight);
+    [toolbar setFrame:rectArea];
+
+    [overlayView addSubview: toolbar];
 
     UIImage* reticleImage = [self buildReticleImage];
-    self.reticleView = [[[UIImageView alloc] initWithImage:reticleImage] autorelease];
+    UIView* reticleView = [[[UIImageView alloc] initWithImage:reticleImage] autorelease];
+    CGFloat minAxis = MIN(rootViewHeight, rootViewWidth);
 
-    self.reticleView.opaque           = NO;
-    self.reticleView.contentMode      = UIViewContentModeScaleAspectFit;
-    self.reticleView.autoresizingMask = (UIViewAutoresizing) (0
+    rectArea = CGRectMake(
+        (CGFloat) (0.5 * (rootViewWidth  - minAxis)),
+        (CGFloat) (0.5 * (rootViewHeight - minAxis)),
+        minAxis,
+        minAxis
+    );
+
+    [reticleView setFrame:rectArea];
+
+    reticleView.opaque           = NO;
+    reticleView.contentMode      = UIViewContentModeScaleAspectFit;
+    reticleView.autoresizingMask = (UIViewAutoresizing) (0
         | UIViewAutoresizingFlexibleLeftMargin
         | UIViewAutoresizingFlexibleRightMargin
         | UIViewAutoresizingFlexibleTopMargin
         | UIViewAutoresizingFlexibleBottomMargin)
     ;
 
-    [overlayView addSubview: self.reticleView];
-    [self resizeElements];
+    [overlayView addSubview: reticleView];
+
     return overlayView;
 }
 
@@ -1168,35 +1177,7 @@ parentViewController:(UIViewController*)parentViewController
     }
 
     previewLayer.videoGravity = AVLayerVideoGravityResizeAspectFill;
-
-    [self resizeElements];
     [UIView setAnimationsEnabled:YES];
-}
-
--(void) resizeElements {
-    CGRect bounds = self.view.bounds;
-    if (@available(iOS 11.0, *)) {
-        bounds = CGRectMake(bounds.origin.x, bounds.origin.y, bounds.size.width, self.view.safeAreaLayoutGuide.layoutFrame.size.height+self.view.safeAreaLayoutGuide.layoutFrame.origin.y);
-    }
-
-    [self.toolbar sizeToFit];
-    CGFloat toolbarHeight  = [self.toolbar frame].size.height;
-    CGFloat rootViewHeight = CGRectGetHeight(bounds);
-    CGFloat rootViewWidth  = CGRectGetWidth(bounds);
-    CGRect  rectArea       = CGRectMake(0, rootViewHeight - toolbarHeight, rootViewWidth, toolbarHeight);
-    [self.toolbar setFrame:rectArea];
-
-    CGFloat minAxis = MIN(rootViewHeight, rootViewWidth);
-
-    rectArea = CGRectMake(
-                          (CGFloat) (0.5 * (rootViewWidth  - minAxis)),
-                          (CGFloat) (0.5 * (rootViewHeight - minAxis)),
-                          minAxis,
-                          minAxis
-                          );
-
-    [self.reticleView setFrame:rectArea];
-    self.reticleView.center = CGPointMake(self.view.center.x, self.view.center.y-self.toolbar.frame.size.height/2);
 }
 
 @end
