@@ -34,10 +34,14 @@
                         },
                         {
                             "xml": "<feature name=\"MWBarcodeScanner\"><param name=\"android-package\" value=\"com.manateeworks.BarcodeScannerPlugin\" /></feature>",
-                            "count": 1
+                            "count": 2
                         },
                         {
                             "xml": "<feature name=\"cordova-gmv-barcode-scanner\"><param name=\"android-package\" value=\"com.dealrinc.gmvScanner.CDVAndroidScanner\" /></feature>",
+                            "count": 1
+                        },
+                        {
+                            "xml": "<preference name=\"CrosswalkAnimatable\" value=\"true\" />",
                             "count": 1
                         }
                     ]
@@ -57,12 +61,16 @@
                         {
                             "xml": "<activity android:configChanges=\"orientation|keyboardHidden\" android:name=\"com.manateeworks.ScannerActivity\" android:screenOrientation=\"landscape\" android:theme=\"@android:style/Theme.NoTitleBar.Fullscreen\"></activity>",
                             "count": 1
+                        },
+                        {
+                            "xml": "<activity android:configChanges=\"orientation|keyboardHidden\" android:name=\"com.manateeworks.ScannerActivity\" android:theme=\"@android:style/Theme.NoTitleBar.Fullscreen\"></activity>",
+                            "count": 1
                         }
                     ],
                     "/manifest": [
                         {
                             "xml": "<uses-permission android:name=\"android.permission.CAMERA\" />",
-                            "count": 2
+                            "count": 3
                         },
                         {
                             "xml": "<uses-permission android:name=\"android.permission.FLASHLIGHT\" />",
@@ -70,6 +78,10 @@
                         },
                         {
                             "xml": "<uses-feature android:name=\"android.hardware.camera\" android:required=\"true\" />",
+                            "count": 1
+                        },
+                        {
+                            "xml": "<uses-permission android:name=\"android.permission.INTERNET\" />",
                             "count": 1
                         }
                     ],
@@ -210,6 +222,9 @@
         },
         "cordova-gmv-barcode-scanner": {
             "PACKAGE_NAME": "com.wedding.app"
+        },
+        "manateeworks-barcodescanner-v3": {
+            "PACKAGE_NAME": "com.wedding.app"
         }
     },
     "dependent_plugins": {},
@@ -277,6 +292,14 @@
             "clobbers": [
                 "cordova.plugins.gmv-barcode-scanner"
             ]
+        },
+        {
+            "id": "manateeworks-barcodescanner-v3.Scanner",
+            "file": "plugins/manateeworks-barcodescanner-v3/www/MWBScanner.js",
+            "pluginId": "manateeworks-barcodescanner-v3",
+            "clobbers": [
+                "mwbScanner"
+            ]
         }
     ],
     "plugin_metadata": {
@@ -288,6 +311,7 @@
         "phonegap-plugin-barcodescanner": "6.0.8",
         "cordova-plugin-device": "2.0.2",
         "com.manateeworks.barcodescanner": "1.8.1",
-        "cordova-gmv-barcode-scanner": "1.2"
+        "cordova-gmv-barcode-scanner": "1.2",
+        "manateeworks-barcodescanner-v3": "3.0.52"
     }
 }

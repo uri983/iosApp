@@ -30,6 +30,9 @@
     },
     "cordova-gmv-barcode-scanner": {
       "PACKAGE_NAME": "com.wedding.app"
+    },
+    "manateeworks-barcodescanner-v3": {
+      "PACKAGE_NAME": "com.wedding.app"
     }
   },
   "dependent_plugins": {
