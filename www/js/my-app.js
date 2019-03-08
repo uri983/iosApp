@@ -13,7 +13,8 @@ var mainView = myApp.addView('.view-main', {
 
 // Handle Cordova Device Ready Event
 $$(document).on('deviceready', function() {
-    alert('device ready');
+    console.log("Device is ready!");
+    console.log(cordova.plugins);
 });
 
 
@@ -45,7 +46,7 @@ $$(document).on('pageInit', '.page[data-page="about"]', function (e) {
 
 function scan(){
 
-    SpinnerPlugin.activityStart("Iniciando Sesión...");
+    //SpinnerPlugin.activityStart("Iniciando Sesión...");
 
 
 
