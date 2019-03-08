@@ -39,6 +39,22 @@ module.exports = [
     "clobbers": [
       "cordova.plugins.barcodeScanner"
     ]
+  },
+  {
+    "id": "cordova-plugin-device.device",
+    "file": "plugins/cordova-plugin-device/www/device.js",
+    "pluginId": "cordova-plugin-device",
+    "clobbers": [
+      "device"
+    ]
+  },
+  {
+    "id": "com.manateeworks.barcodescanner.Scanner",
+    "file": "plugins/com.manateeworks.barcodescanner/www/MWBScanner.js",
+    "pluginId": "com.manateeworks.barcodescanner",
+    "clobbers": [
+      "scanner"
+    ]
   }
 ];
 module.exports.metadata = 
@@ -49,7 +65,9 @@ module.exports.metadata =
   "cordova-plugin-spinner": "1.1.0",
   "cordova-plugin-statusbar": "1.0.1",
   "cordova-plugin-whitelist": "1.2.2",
-  "phonegap-plugin-barcodescanner": "6.0.8"
+  "phonegap-plugin-barcodescanner": "6.0.8",
+  "cordova-plugin-device": "2.0.2",
+  "com.manateeworks.barcodescanner": "1.8.1"
 };
 // BOTTOM OF METADATA
 });

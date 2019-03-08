@@ -24,7 +24,14 @@
     },
     "phonegap-plugin-barcodescanner": {
       "PACKAGE_NAME": "com.wedding.app"
+    },
+    "com.manateeworks.barcodescanner": {
+      "PACKAGE_NAME": "com.wedding.app"
     }
   },
-  "dependent_plugins": {}
+  "dependent_plugins": {
+    "cordova-plugin-device": {
+      "PACKAGE_NAME": "com.wedding.app"
+    }
+  }
 }
